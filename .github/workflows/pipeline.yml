@@ -1,0 +1,19 @@
+name: K6-Automation
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check pipeline
+              uses: actions/checkout@v3
+
+            - name: Install K6
+              uses: grafana/k6-action@v0.2.0
+
+            - name: Run test
+              run: k6 run ./scripts/load-test/load-test.js
