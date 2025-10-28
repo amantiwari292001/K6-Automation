@@ -1,3 +1,7 @@
+env:
+    LOAD-TEST: scripts/load-test/load-test.js
+    SMOKE-TEST: scripts/smoke-test/smoke-test.js
+
 name: K6-Automation
 
 on:
@@ -12,8 +16,18 @@ jobs:
             - name: Check pipeline
               uses: actions/checkout@v3
 
-            - name: Install K6
+            - name: Run Smoke Test
               uses: grafana/k6-action@v0.2.0
+              with:
+                cloud: false
+                filename: ${{ env.SMOKE-TEST }}
 
-            - name: Run test
-              run: k6 run ./scripts/load-test/load-test.js
+            - name: Run Load Test
+              uses: grafana/k6-action@v0.2.0
+              with:
+                cloud: false
+                filename: ${{ env.SMOKE-TEST }}
+
+
+            - name: Completed
+              run: echo "Completed"
